@@ -8,6 +8,7 @@ class AppColors {
   static const Color success = Color(0xFF30D158);
   static const Color warning = Color(0xFFFFD60A);
   static const Color danger = Color(0xFFFF453A);
+  static const Color info = Color(0xFF0A84FF);
   static const Color background = Color(0xFF0C0C0E);
   static const Color surface = Color(0xFF1C1C1E);
   static const Color surfaceElevated = Color(0xFF2C2C2E);
@@ -60,7 +61,7 @@ class AppTheme {
       titleTextStyle: AppTextStyles.headlineMedium.copyWith(color: AppColors.textPrimary),
       iconTheme: const IconThemeData(color: AppColors.textPrimary),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: AppColors.surface,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
