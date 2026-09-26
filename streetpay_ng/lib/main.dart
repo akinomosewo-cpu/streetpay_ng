@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/theme/app_theme.dart';
 import 'data/app_repository.dart';
+import 'data/auth_repository.dart';
 import 'presentation/cubits/app_data_cubit.dart';
-import 'presentation/pages/dashboard_page.dart';
+import 'presentation/pages/auth/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,10 @@ class StreetPayApp extends StatelessWidget {
   /// widget test environment.
   final AppRepository? repository;
 
-  const StreetPayApp({super.key, this.repository});
+  /// Injectable local-auth repository, for the same reason.
+  final AuthRepository? authRepository;
+
+  const StreetPayApp({super.key, this.repository, this.authRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class StreetPayApp extends StatelessWidget {
         theme: AppTheme.dark,
         darkTheme: AppTheme.dark,
         themeMode: ThemeMode.dark,
-        home: const DashboardPage(),
+        home: SplashPage(authRepository: authRepository ?? AuthRepository()),
       ),
     );
   }

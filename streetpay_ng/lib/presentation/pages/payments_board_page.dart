@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
@@ -186,7 +187,7 @@ class _RecordPaymentSheetState extends State<_RecordPaymentSheet> {
           ),
           const Gap(20),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final amount = int.tryParse(_amountCtrl.text.trim()) ?? 0;
               if (amount <= 0) return;
               context.read<AppDataCubit>().recordPayment(
@@ -196,10 +197,86 @@ class _RecordPaymentSheetState extends State<_RecordPaymentSheet> {
                     method: _method,
                   );
               Navigator.pop(context);
+              await showPaymentRecordedAnimation(context, amount: amount);
             },
             child: const Text('Save payment'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Shows a brief, non-blocking "payment recorded" celebration: a checkmark
+/// that scales in and a total that counts up from zero, then dismisses
+/// itself automatically.
+Future<void> showPaymentRecordedAnimation(BuildContext context, {required int amount}) {
+  return showGeneralDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: 'Payment recorded',
+    barrierColor: Colors.black26,
+    transitionDuration: const Duration(milliseconds: 200),
+    pageBuilder: (context, animation, secondaryAnimation) {
+      Future.delayed(const Duration(milliseconds: 1300), () {
+        if (context.mounted && Navigator.of(context).canPop()) Navigator.of(context).pop();
+      });
+      return _PaymentRecordedOverlay(amount: amount);
+    },
+    transitionBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(opacity: animation, child: child);
+    },
+  );
+}
+
+class _PaymentRecordedOverlay extends StatelessWidget {
+  final int amount;
+  const _PaymentRecordedOverlay({required this.amount});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 48),
+        padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 24),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: AppColors.cardShadow,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: const BoxDecoration(color: AppColors.success, shape: BoxShape.circle),
+              child: const Icon(Icons.check_rounded, color: Colors.white, size: 36),
+            )
+                .animate()
+                .scale(
+                  begin: const Offset(0.2, 0.2),
+                  end: const Offset(1, 1),
+                  duration: 400.ms,
+                  curve: Curves.elasticOut,
+                )
+                .fadeIn(duration: 150.ms),
+            const Gap(16),
+            Text('Payment recorded', style: AppTextStyles.headlineSmall.copyWith(color: AppColors.textPrimary))
+                .animate()
+                .fadeIn(delay: 150.ms),
+            const Gap(6),
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: amount.toDouble()),
+              duration: const Duration(milliseconds: 700),
+              curve: Curves.easeOutCubic,
+              builder: (context, value, _) => Text(
+                FormatUtils.currency(value.round()),
+                style: AppTextStyles.headlineLarge.copyWith(color: AppColors.success, fontWeight: FontWeight.w800),
+              ),
+            ).animate().fadeIn(delay: 200.ms),
+          ],
+        ),
       ),
     );
   }
