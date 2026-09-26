@@ -96,7 +96,7 @@ class DashboardPage extends StatelessWidget {
                         ),
                       ]),
                       const Gap(24),
-                      Text('Manage', style: AppTextStyles.headlineSmall.copyWith(color: AppColors.textPrimary)),
+                      Text('Manage', style: AppTextStyles.headlineLarge.copyWith(color: AppColors.textPrimary)),
                       const Gap(12),
                       _NavCard(
                         icon: Icons.home_work_outlined,
@@ -167,8 +167,8 @@ class _StatCard extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: AppColors.cardShadow,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,18 +200,18 @@ class _NavCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: AppColors.cardShadow,
           ),
           child: Row(children: [
             Container(
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.14), borderRadius: BorderRadius.circular(14)),
               child: Icon(icon, color: color, size: 20),
             ),
             const Gap(14),
@@ -219,13 +219,13 @@ class _NavCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label, style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary)),
+                  Text(label, style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
                   const Gap(2),
                   Text(subtitle, style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.textTertiary, size: 18),
+            const Icon(Icons.chevron_right_rounded, color: AppColors.textTertiary, size: 20),
           ]),
         ),
       );

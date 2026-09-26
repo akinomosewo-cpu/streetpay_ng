@@ -21,14 +21,14 @@ class StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
         color: _color.withValues(alpha: 0.14),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         status.label,
-        style: AppTextStyles.labelSmall.copyWith(color: _color, fontWeight: FontWeight.w700),
+        style: AppTextStyles.labelSmall.copyWith(color: _color, fontWeight: FontWeight.w800),
       ),
     );
   }

@@ -32,7 +32,7 @@ class _PaymentsBoardPageState extends State<PaymentsBoardPage> {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -41,7 +41,7 @@ class _PaymentsBoardPageState extends State<PaymentsBoardPage> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(FormatUtils.currency(summary.totalCollected),
-                            style: AppTextStyles.headlineMedium.copyWith(color: AppColors.success)),
+                            style: AppTextStyles.headlineLarge.copyWith(color: AppColors.success, fontWeight: FontWeight.w800)),
                         Text('of ${FormatUtils.currency(summary.totalExpected)} expected',
                             style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary)),
                       ],
@@ -61,18 +61,18 @@ class _PaymentsBoardPageState extends State<PaymentsBoardPage> {
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: summary.households.length,
-                    separatorBuilder: (_, __) => const Gap(10),
+                    separatorBuilder: (_, __) => const Gap(12),
                     itemBuilder: (context, i) {
                       final row = summary.households[i];
                       return InkWell(
                         onTap: () => _showRecordPaymentSheet(context, row.household.id, row.outstanding),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          padding: const EdgeInsets.all(14),
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: AppColors.surface,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.border),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: AppColors.cardShadow,
                           ),
                           child: Row(children: [
                             Expanded(
@@ -81,8 +81,8 @@ class _PaymentsBoardPageState extends State<PaymentsBoardPage> {
                                 children: [
                                   Text('${row.household.houseNumber} · ${row.household.occupantName}',
                                       style:
-                                          AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary)),
-                                  const Gap(2),
+                                          AppTextStyles.headlineSmall.copyWith(color: AppColors.textPrimary)),
+                                  const Gap(4),
                                   Text(
                                     '${FormatUtils.currency(row.amountPaid)} of ${FormatUtils.currency(row.amountDue)}',
                                     style: AppTextStyles.labelSmall.copyWith(color: AppColors.textSecondary),
@@ -110,7 +110,7 @@ class _PaymentsBoardPageState extends State<PaymentsBoardPage> {
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(28))),
       builder: (_) => BlocProvider.value(
         value: context.read<AppDataCubit>(),
         child: _RecordPaymentSheet(householdId: householdId, monthKey: monthKey, suggested: outstanding),
